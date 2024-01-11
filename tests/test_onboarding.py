@@ -15,15 +15,19 @@ def test_search(mobile_management, skip_onboarding):
     with step('Go to back'):
         browser.element((AppiumBy.CLASS_NAME, 'android.widget.ImageButton')).click()
 
+
 def test_hide_news(mobile_management, skip_onboarding):
     with step('Check title "Featured article"'):
-        browser.all((AppiumBy.ID, "org.wikipedia.alpha:id/view_card_header_title")).first.should(have.text('Featured article'))
+        browser.all((AppiumBy.ID, "org.wikipedia.alpha:id/view_card_header_title")).first.should(have.text(
+            'Featured article'))
     with step('Open menu'):
         browser.all((AppiumBy.ID, "org.wikipedia.alpha:id/view_list_card_header_menu")).first.click()
     with step('Hide card'):
         browser.all((AppiumBy.ID, "org.wikipedia.alpha:id/title")).first.click()
     with step('Check new title "Top read"'):
         browser.all((AppiumBy.ID, "org.wikipedia.alpha:id/view_card_header_title")).first.should(have.text('Top read'))
+
+
 def test_open_article(mobile_management, skip_onboarding):
     with step('Type search'):
         browser.element((AppiumBy.ACCESSIBILITY_ID, "Search Wikipedia")).click()

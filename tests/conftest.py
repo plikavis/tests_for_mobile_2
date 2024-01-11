@@ -4,16 +4,10 @@ from allure import step
 from allure_commons._allure import StepContext
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
-from dotenv import load_dotenv
 from selene import browser, support
 import os
 import utils.allure
 from config import init_options, settings
-
-
-# @pytest.fixture(scope='session', autouse=True)
-# def load_env():
-#     load_dotenv()
 
 
 @pytest.fixture()
@@ -45,4 +39,3 @@ def mobile_management():
 def skip_onboarding():
     with step('Skip onboarding'):
         browser.element((AppiumBy.ID, "org.wikipedia.alpha:id/fragment_onboarding_skip_button")).click()
-
