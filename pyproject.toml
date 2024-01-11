@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "tests_for_mobile_2"
+version = "0.1.0"
+description = ""
+authors = ["Polina Vishnyakova <vishnyakovapv@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pytest = "^7.4.4"
+selene = "2.0.0rc4"
+appium-python-client = "^3.1.1"
+pydantic = "2.5.3"
+pydantic-settings = "2.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -2,44 +2,29 @@ import allure
 import pytest
 from allure import step
 from allure_commons._allure import StepContext
-from appium.options.android import UiAutomator2Options
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
 from dotenv import load_dotenv
 from selene import browser, support
 import os
-import pydantic
-
 import utils.allure
+from config import init_options, settings
 
 
+# @pytest.fixture(scope='session', autouse=True)
+# def load_env():
+#     load_dotenv()
 
 
-@pytest.fixture(scope='session', autouse=True)
-def load_env():
-    load_dotenv()
-
-
-@pytest.fixture(scope='session', autouse=True)
+@pytest.fixture()
 def mobile_management():
-
-    options = UiAutomator2Options().load_capabilities({
-        "platformVersion": "14.0",
-        # "platformName": "Android",
-        "deviceName": "Pixel 3 XL API 34",
-        "app": "/Users/polinavishnyakova/PycharmProjects/tests_for_mobile_2/app-alpha-universal-release(1).apk",
-        "appium:appWaitActivity": "org.wikipedia.*",
-    })
-
-    # browser.config.driver = webdriver.Remote("http://hub.browserstack.com/wd/hub", options=options)
+    options = init_options()
     with allure.step('init app session'):
         browser.config.driver = webdriver.Remote(
-            'http://127.0.0.1:4723/wd/hub',
+            settings.remote_url,
             options=options
         )
-
-    browser.config.timeout = float(os.getenv('timeout', '10.0'))
-
+    browser.config.timeout = float(os.getenv('timeout', '5.0'))
     browser.config._wait_decorator = support._logging.wait_with(
         context=StepContext
     )
@@ -52,11 +37,11 @@ def mobile_management():
 
     with allure.step('tear down app session'):
         browser.quit()
+    if settings.contex == 'bstack':
+        utils.allure.video(settings.bstack_user_name, settings.bstack_access_key, session_id)
 
-    # utils.allure.video(login, password, session_id)
 
-
-@pytest.fixture()
+@pytest.fixture
 def skip_onboarding():
     with step('Skip onboarding'):
         browser.element((AppiumBy.ID, "org.wikipedia.alpha:id/fragment_onboarding_skip_button")).click()
