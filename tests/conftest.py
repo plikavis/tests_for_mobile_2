@@ -1,5 +1,5 @@
-import allure
 import pytest
+import allure
 from allure import step
 from allure_commons._allure import StepContext
 from appium import webdriver
